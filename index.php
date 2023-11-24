@@ -17,20 +17,8 @@
 
 <body>
     <?php
+    include("connectdb.php");
     include("model/sanpham.php");
-
-    $server = 'localhost';
-    $db_username = 'root';
-    $db_password = '';
-    $db_database = 'lab6';
-
-    $connection = mysqli_connect("localhost", $db_username, $db_password, $db_database);
-
-    if (mysqli_connect_errno()) {
-        echo '<p>Loi ket noi db!</p>';
-    } else {
-        echo '<p>Ket noi db thanh cong!</p>';
-    }
 
     ?>
     <h1>Danh sach san pham</h1>
@@ -39,13 +27,15 @@
     // Thực hiện truy vấn SELECT
     $sql = "SELECT * FROM sanpham";
     $result = $connection->query($sql);
-    //echo ($result);
+    //var_dump($result);
     
     $arraySanphams = array();
 
     while ($row = $result->fetch_assoc()) {
         $sanpham = new SanPham($row["id"], $row["name"], $row["loaisp"], $row["imgUrl"], $row["price"]);
         array_push($arraySanphams, $sanpham);
+
+        debug_to_console($sanpham);
     }
 
     // Đóng kết nối
@@ -75,6 +65,7 @@
     </table>
 
 
+    
 
 </body>
 

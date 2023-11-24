@@ -14,5 +14,9 @@
             $this->imgUrl = $imgUrl;
             $this->price = $price;
         }
+
+        public function __toString() {
+            return (string)$this->name.(string)$this->price;
+        }
     }
 ?>
