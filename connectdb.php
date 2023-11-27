@@ -5,7 +5,9 @@
     $db_password = '';
     $db_database = 'lab6';
 
-    $connection = mysqli_connect("localhost", $db_username, $db_password, $db_database);
+    $connection = mysqli_connect($server, $db_username, $db_password, $db_database);
+
+    $TABLE_NAME = 'sanpham';
 
     if (mysqli_connect_errno()) {
         echo '<p>Loi ket noi db!</p>';

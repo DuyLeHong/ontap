@@ -18,5 +18,10 @@
         public function __toString() {
             return (string)$this->name.(string)$this->price;
         }
+
     }
+
+//    $sp1 = new SanPham(1, "sp1", "123", "aaa", 500);
+//
+//    echo $sp1->name;
 ?>

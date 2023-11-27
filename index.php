@@ -25,7 +25,7 @@
 
     <?php
     // Thực hiện truy vấn SELECT
-    $sql = "SELECT * FROM sanpham";
+    $sql = "SELECT * FROM ".$TABLE_NAME;
     $result = $connection->query($sql);
     //var_dump($result);
     
@@ -50,6 +50,7 @@
             <th>Loại SP</th>
             <th>Ảnh SP</th>
             <th>Giá</th>
+            <th>Hành động</th>
         </tr>
 
         <?php foreach ($arraySanphams as $sp) {?>
@@ -59,11 +60,23 @@
             <td><?php echo $sp->loaisp?></td>
             <td><img src="<?php echo $sp->imgUrl?>" alt="" width='200'></td> 
             <td><?php echo $sp->price?></td> 
+
+            <td>
+                <a href="edit.php?id=<?php echo $value['id']; ?>">Sửa</a>
+                <a href="javascript:confirmDelete('delete.php?id=<?php echo $sp->id;?>')">Xóa</a>
+            </td>
         </tr>    
         <?php } ?>
 
     </table>
 
+    <script>
+    function confirmDelete(delUrl) {
+        if (confirm("Bạn có muốn xóa không ? ")) {
+            document.location = delUrl;
+        }
+    }
+</script>
 
     
 
