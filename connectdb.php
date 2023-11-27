@@ -9,6 +9,8 @@
 
     $TABLE_NAME = 'sanpham';
 
+    $TABLE_NAME_LOAI = 'loaisanpham';
+
     if (mysqli_connect_errno()) {
         echo '<p>Loi ket noi db!</p>';
     } else {

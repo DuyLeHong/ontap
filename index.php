@@ -57,8 +57,16 @@
         <tr>
             <td><?php echo $sp->id?></td>
             <td><?php echo $sp->name?></td>
-            <td><?php echo $sp->loaisp?></td>
-            <td><img src="<?php echo $sp->imgUrl?>" alt="" width='200'></td> 
+
+            <?php 
+                $res = $connection->query("Select ten from ".$TABLE_NAME_LOAI." Where id ='".$sp->loaisp. "'")->fetch_assoc();
+
+                echo "<td>".$res['ten']."</td>";
+            ?>
+            
+
+
+            <td><img src="<?php echo "img/".$sp->imgUrl?>" alt="" width='200'></td> 
             <td><?php echo $sp->price?></td> 
 
             <td>
@@ -76,8 +84,10 @@
             document.location = delUrl;
         }
     }
-</script>
 
+    
+</script>
+    <a href="add.php">Thêm sản phẩm</a>
     
 
 </body>
