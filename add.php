@@ -1,7 +1,13 @@
 <?php
 include "connectdb.php";
 $sql = "SELECT * FROM " . $TABLE_NAME_LOAI;
-$resultLoai = $connection->execute_query($sql)->fetch_all();
+$resultLoai = array();
+
+$res = $connection->query($sql);
+
+while ($row = $res->fetch_assoc()) {
+    array_push($resultLoai, $row);
+}
 
 //var_dump($resultLoai);
 
@@ -73,8 +79,8 @@ if (isset($_POST['them'])) {
         Loại sản phẩm
         <select name="loai_sanpham_id">
             <?php foreach ($resultLoai as $loaisp) { ?>
-                <option value="<?php echo $loaisp[0]; ?>">
-                    <?php echo $loaisp[1]; ?>
+                <option value="<?php echo $loaisp["id"]; ?>">
+                    <?php echo $loaisp["ten"]; ?>
                 </option>
             <?php } ?>
         </select>
