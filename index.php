@@ -31,8 +31,8 @@
     
     $arraySanphams = array();
 
-    while ($row = $result->fetch_assoc()) {
-        $sanpham = new SanPham($row["id"], $row["name"], $row["loaisp"], $row["imgUrl"], $row["price"]);
+    while ($row2 = $result->fetch_assoc()) {
+        $sanpham = new SanPham($row2["id"], $row2["name"], $row2["loaisp"], $row2["imgUrl"], $row2["price"]);
         array_push($arraySanphams, $sanpham);
 
         debug_to_console($sanpham);
@@ -70,7 +70,7 @@
             <td><?php echo $sp->price?></td> 
 
             <td>
-                <a href="edit.php?id=<?php echo $value['id']; ?>">Sửa</a>
+                <a href="edit.php?id=<?php echo $sp->id; ?>">Sửa</a>
                 <a href="javascript:confirmDelete('delete.php?id=<?php echo $sp->id;?>')">Xóa</a>
             </td>
         </tr>    

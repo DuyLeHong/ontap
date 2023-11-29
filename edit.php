@@ -1,5 +1,7 @@
 <?php
 include "connectdb.php";
+include "model/sanpham.php";
+
 $sql = "SELECT * FROM " . $TABLE_NAME_LOAI;
 $resultLoai = array();
 
@@ -9,6 +11,17 @@ while ($row2 = $res->fetch_assoc()) {
     array_push($resultLoai, $row2);
 }
 
+$idSp = $_GET['id'];
+
+$sqlGetSP = 'Select * from '. $TABLE_NAME .' Where id ='. $idSp;
+
+$sanphamCu = $connection->query($sqlGetSP)->fetch_assoc();
+
+// $sanphamCu = new SanPham($row2['id'], $row2['name'], $row2['loaisp'], $row2['imgUrl'], $row2['price']);
+
+
+//var_dump($sanphamCu);
+
 //var_dump($resultLoai);
 
 // foreach ($resultLoai as $key => $value) {
@@ -17,7 +30,7 @@ while ($row2 = $res->fetch_assoc()) {
 
 
 $error = [];
-if (isset($_POST['them'])) {
+if (isset($_POST['sua'])) {
     $name = $_POST['name'];
     $loai_sp_id = $_POST['loai_sanpham_id'];
     $price = $_POST['price'];
@@ -31,6 +44,8 @@ if (isset($_POST['them'])) {
     if ($price < 0) {
         $error['gia_am'] = "Giá không được phép nhỏ hơn 0 ";
     }
+
+    $name_img = '';
     //xử lý thêm ảnh
     if (isset($_FILES['image'])) {
         //thư mục sẽ lưu ảnh
@@ -45,10 +60,14 @@ if (isset($_POST['them'])) {
     //nếu như không có lỗi gì thì sẽ thêm vào db
     if (!$error) {
 
-        $sql = "INSERT INTO " . $TABLE_NAME . " VALUES (null,'$name','$loai_sp_id','$name_img','$price')";
+        if ($name_img == '') {
+            $name_img = $sanphamCu['imgUrl'];
+        }
+
+        $sql = "UPDATE " . $TABLE_NAME . " SET name='".$name. "', price='".$price. "', loaisp='".$loai_sp_id."', imgUrl='".$name_img."' WHERE id = ".$idSp;
 
         $connection->execute_query($sql);
-        echo "Thêm sản phẩm thành công";
+        echo "Sửa sản phẩm thành công!";
 
         header('Location: index.php');
     }
@@ -68,23 +87,35 @@ if (isset($_POST['them'])) {
 
 <body>
     <form action="" method="POST" enctype="multipart/form-data">
-        Tên <input type="text" name="name" /></br>
+        Tên <input type="text" name="name" 
+        value="<?php echo $sanphamCu['name'];?>" /></br>
         
-        Giá <input type="text" name="price" />
+        Giá <input type="text" name="price" 
+        value="<?php echo $sanphamCu['price']; ?>"/>
         <?php echo isset($error['gia_emp']) ? $error['gia_emp'] : "" ?>
         <?php echo isset($error['gia_am']) ? $error['gia_am'] : "" ?>
-        </br>
+        
+        <br>
         Hình ảnh
-        <input type="file" name="image"></br>
+        <input type="file" name="image" 
+        value=<?php echo $sanphamCu['imgUrl']?>></br>
         Loại sản phẩm
-        <select name="loai_sanpham_id">
-            <?php foreach ($resultLoai as $loaisp) { ?>
-                <option value="<?php echo $loaisp["id"]; ?>">
+        <select name="loai_sanpham_id"
+                >
+            <?php foreach ($resultLoai as $loaisp) { 
+                    $sl = '';
+                    if ($loaisp['id'] == $sanphamCu['loaisp'])    {
+                        $sl = "selected"; 
+                        // debug_to_console($sl.$loaisp['ten']);
+                    }
+                ?>
+
+                <option value="<?php echo $loaisp["id"];?>" <?php echo $sl;?>>
                     <?php echo $loaisp["ten"]; ?>
                 </option>
             <?php } ?>
         </select>
-        <input type="submit" name="them" value="Thêm">
+        <input type="submit" name="sua" value="Sửa">
 
     </form>
 </body>
