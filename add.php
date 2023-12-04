@@ -68,8 +68,10 @@ if (isset($_POST['them'])) {
 
 <body>
     <form action="" method="POST" enctype="multipart/form-data">
-        Tên <input type="text" name="name" /></br>
-        
+        Tên <input type="text" name="name" />
+        <?php echo isset($error['ten_emp']) ? $error['ten_emp'] : "" ?>
+        </br>
+
         Giá <input type="text" name="price" />
         <?php echo isset($error['gia_emp']) ? $error['gia_emp'] : "" ?>
         <?php echo isset($error['gia_am']) ? $error['gia_am'] : "" ?>
